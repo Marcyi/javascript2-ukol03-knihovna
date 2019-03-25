@@ -1,3 +1,5 @@
+import { Z_FILTERED } from "zlib";
+
 /*
   Třída pro knihovnu.
 
@@ -20,7 +22,7 @@ export default class Library {
     this.lastBook = null;
     this.currentBook = null;
     this.nextBook = null;
-    this.unreadBooks = 0;
+    this.unreadBooks = 10;
   }
 
   /* přidat knihu do knihovny */
@@ -59,5 +61,32 @@ export default class Library {
       }
     }
   }
-
+  // akutalni knihu oznaci jako prectenou, a presune ji do lastBook,
+  // aktualni ctena kniha neni zadna a snizime pocet neprecetnych knih
+  finishCurrentBook() {
+    if (this.currentBook !== null) {
+      this.currentBook.read();
+      this.currentBook = this.lastBook;
+      this.currentBook = null;
+      this.unreadBooks--;
+    }
+  }
+//vypise seznam neprecetnych knih
+  listUnreadBooks(){
+    let newListBook = []
+    newListBook = this.bookList.filter( book => !book.isRead );
+    console.log(newListBook);
+  }
 }
+
+
+/*
+function giveUnreadBooks(book){
+  if (!book.isRead)  {
+    return true;
+  } else {
+    return false
+  }
+} 
+
+*/
